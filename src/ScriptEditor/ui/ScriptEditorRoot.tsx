@@ -22,7 +22,7 @@ import { PromptEvent } from "../../ui/React/PromptManager";
 
 import { useRerender } from "../../ui/React/hooks";
 
-import { dirty, getServerCode, makeModel } from "./utils";
+import { dirty, getServerCode } from "./utils";
 import { OpenScript } from "./OpenScript";
 import { Tabs } from "./Tabs";
 import { Toolbar } from "./Toolbar";
@@ -33,6 +33,7 @@ import { useCallback } from "react";
 import { type AST, getFileType, parseAST } from "../../utils/ScriptTransformer";
 import { RamCalculationErrorCode } from "../../Script/RamCalculationErrorCodes";
 import { hasScriptExtension, isLegacyScript } from "../../Paths/ScriptFilePath";
+import { makeModel } from "../Model";
 
 interface IProps {
   // Map of filename -> code
@@ -313,8 +314,7 @@ function Root(props: IProps): React.ReactElement {
         },
       });
     }
-    //unmounting the editor will dispose all, doesnt hurt to dispose on close aswell
-    closingScript.model.dispose();
+
     openScripts.splice(index, 1);
     if (openScripts.length === 0) {
       currentScript = null;

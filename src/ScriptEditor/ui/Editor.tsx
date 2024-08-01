@@ -4,6 +4,8 @@ import * as monaco from "monaco-editor";
 
 import { useScriptEditorContext } from "./ScriptEditorContext";
 import { scriptEditor } from "../ScriptEditor";
+import { GetAllServers } from "../../Server/AllServers";
+import { makeModel } from "../Model";
 
 interface EditorProps {
   /** Function to be ran after mounting editor */
@@ -25,6 +27,12 @@ export function Editor({ onMount, onChange, onUnmount }: EditorProps) {
     if (!containerDiv.current) return;
     // Before initializing monaco editor
     scriptEditor.initialize();
+
+    for (const server of GetAllServers()) {
+      for (const [path, script] of server.scripts.entries()) {
+        makeModel(server.hostname, path, script.code);
+      }
+    }
 
     // Initialize monaco editor
     editorRef.current = monaco.editor.create(containerDiv.current, {
