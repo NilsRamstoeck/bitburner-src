@@ -10,7 +10,6 @@ import IconButton from "@mui/material/IconButton";
 import ReplyIcon from "@mui/icons-material/Reply";
 import PaletteSharpIcon from "@mui/icons-material/PaletteSharp";
 import HistoryIcon from "@mui/icons-material/History";
-import { Color, ColorPicker } from "material-ui-color";
 import { ThemeEvents } from "./Theme";
 import { Settings } from "../../Settings/Settings";
 import { defaultTheme } from "../Themes";
@@ -18,6 +17,7 @@ import { UserInterfaceTheme } from "@nsdefs";
 import { Router } from "../../ui/GameRoot";
 import { Page } from "../../ui/Router";
 import { ThemeCollaborate } from "./ThemeCollaborate";
+import { ColorPicker } from "./ColorPicker";
 
 interface IProps {
   open: boolean;
@@ -46,13 +46,7 @@ function ColorEditor({ name, onColorChange, color, defaultColor }: IColorEditorP
         InputProps={{
           startAdornment: (
             <>
-              <ColorPicker
-                hideTextfield
-                deferred
-                value={color}
-                onChange={(newColor: Color) => onColorChange(name, "#" + newColor.hex)}
-                disableAlpha
-              />
+
             </>
           ),
           endAdornment: (

@@ -3,7 +3,6 @@ import _ from "lodash";
 
 import { Grid, Box, Button, IconButton, Paper, TextField, Tooltip, Typography } from "@mui/material";
 import { History, Reply } from "@mui/icons-material";
-import { Color, ColorPicker } from "material-ui-color";
 
 import { Settings } from "../../Settings/Settings";
 import { useRerender } from "../../ui/React/hooks";
@@ -37,13 +36,7 @@ function ColorEditor({ label, themePath, onColorChange, color, defaultColor }: C
           InputProps={{
             readOnly: true,
             startAdornment: (
-              <ColorPicker
-                hideTextfield
-                deferred
-                value={"#" + color}
-                onChange={(newColor: Color) => onColorChange(themePath, newColor.hex)}
-                disableAlpha
-              />
+              <></>
             ),
             endAdornment: (
               <IconButton onClick={() => onColorChange(themePath, defaultColor)}>
