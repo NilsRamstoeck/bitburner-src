@@ -5,7 +5,7 @@ type Props = {
   setHue: (hue: number) => void;
 };
 
-const SLIDER_CLASS = 'color_picker_hue_slider';
+const SLIDER_CLASS = "color_picker_hue_slider";
 
 const GRADIENT_BACKGROUND = `\
 rgba(0, 0, 0, 0) 
@@ -22,7 +22,8 @@ repeat scroll 0% 0%`;
 
 const THUMB_SELECTORS = [`.${SLIDER_CLASS}::-moz-range-thumb`, `.${SLIDER_CLASS}::-webkit-slider-thumb`];
 
-const THUMB_RULES = THUMB_SELECTORS.map((s) => /*css*/`
+const THUMB_RULES = THUMB_SELECTORS.map(
+  (s) => /*css*/ `
 ${s} {
   -webkit-appearance: none;
   -moz-appearance: none;
@@ -33,42 +34,46 @@ ${s} {
   border-radius: 100%;
   cursor: pointer;
 }
-`).join('');
+`,
+).join("");
 
-const THUMB_HOVER_RULES = THUMB_SELECTORS.map((s) => /*css*/ `
+const THUMB_HOVER_RULES = THUMB_SELECTORS.map(
+  (s) => /*css*/ `
 ${s}:hover {
   background: lightgrey;
 }
-`).join('');
+`,
+).join("");
 
-const CSS = /*css*/`
+const CSS = /*css*/ `
 ${THUMB_RULES}
 ${THUMB_HOVER_RULES}
 `;
 
 export function HueSlider({ hue, setHue }: Props) {
-
   useEffect(() => {
     const styleSheet = new CSSStyleSheet();
     styleSheet.replace(CSS);
     document.adoptedStyleSheets.push(styleSheet);
-    return () => void (document.adoptedStyleSheets = document.adoptedStyleSheets.filter(s => s != styleSheet));
+    return () => void (document.adoptedStyleSheets = document.adoptedStyleSheets.filter((s) => s != styleSheet));
   }, []);
 
-  return <input
-    className={SLIDER_CLASS}
-    style={{
-      height: '15px',
-      background: GRADIENT_BACKGROUND,
-      appearance: 'none',
-      MozAppearance: 'none',
-      WebkitAppearance: 'none',
-    }}
-    value={hue + ''}
-    type="range"
-    min={0}
-    max={360}
-    step={1}
-    onChange={(e) => setHue(+e.currentTarget.value)}
-  ></input>;
+  return (
+    <input
+      className={SLIDER_CLASS}
+      style={{
+        height: "15px",
+        background: GRADIENT_BACKGROUND,
+        appearance: "none",
+        MozAppearance: "none",
+        WebkitAppearance: "none",
+      }}
+      value={hue + ""}
+      type="range"
+      min={0}
+      max={360}
+      step={1}
+      onChange={(e) => setHue(+e.currentTarget.value)}
+    ></input>
+  );
 }

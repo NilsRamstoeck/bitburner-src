@@ -17,7 +17,7 @@ import { UserInterfaceTheme } from "@nsdefs";
 import { Router } from "../../ui/GameRoot";
 import { Page } from "../../ui/Router";
 import { ThemeCollaborate } from "./ThemeCollaborate";
-import { ColorPicker } from "./ColorPicker";
+import { OpenColorPickerButton } from "./ColorPicker";
 
 interface IProps {
   open: boolean;
@@ -45,16 +45,12 @@ function ColorEditor({ name, onColorChange, color, defaultColor }: IColorEditorP
         value={color}
         InputProps={{
           startAdornment: (
-            <>
-
-            </>
+            <OpenColorPickerButton title={name} color={color} onColorChange={(c) => onColorChange(name, `#${c}`)} />
           ),
           endAdornment: (
-            <>
-              <IconButton onClick={() => onColorChange(name, defaultColor)}>
-                <ReplyIcon color="primary" />
-              </IconButton>
-            </>
+            <IconButton onClick={() => onColorChange(name, defaultColor)}>
+              <ReplyIcon color="primary" />
+            </IconButton>
           ),
         }}
       />

@@ -35,9 +35,7 @@ function ColorEditor({ label, themePath, onColorChange, color, defaultColor }: C
           sx={{ display: "block", my: 1 }}
           InputProps={{
             readOnly: true,
-            startAdornment: (
-              <></>
-            ),
+            startAdornment: <></>,
             endAdornment: (
               <IconButton onClick={() => onColorChange(themePath, defaultColor)}>
                 <Reply color="primary" />

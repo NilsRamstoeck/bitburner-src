@@ -2,12 +2,11 @@ import { useSyncState } from "./";
 import React, { useMemo } from "react";
 
 type Props = {
-  digitLabel: 'R' | 'G' | 'B',
+  digitLabel: "R" | "G" | "B";
   digit: [number, (d: number) => void];
 };
 
 export function RGBDigit({ digitLabel, digit: [digit, setDigit] }: Props) {
-  
   const [value, setValue] = useSyncState(digit);
 
   useMemo(() => {
@@ -16,32 +15,35 @@ export function RGBDigit({ digitLabel, digit: [digit, setDigit] }: Props) {
     if (value < 0) return setValue(0);
 
     setDigit(value);
-  // eslint-disable-next-line react-hooks/exhaustive-deps
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [value]);
 
-  return <div
-    style={{
-      display: 'flex',
-      flexDirection: 'column',
-      justifyContent: 'space-between',
-      borderBottom: '1px solid currentColor'
-    }}
-  >
-    <span style={{fontWeight: 'bolder'}}>{digitLabel}</span>
-    <input
-      type="number"
-      min='0'
-      max='255'
+  return (
+    <div
       style={{
-        width: '3.2em',
-        appearance: 'none',
-        MozAppearance: 'none',
-        WebkitAppearance: 'none',
-        border: 'none',
-        background: 'transparent',
-        color: 'inherit'
+        display: "flex",
+        flexDirection: "column",
+        justifyContent: "space-between",
+        borderBottom: "1px solid currentColor",
       }}
-      value={value + ''}
-      onChange={({ currentTarget: { value } }) => setValue(Number.parseInt((value || '0').replaceAll(/[^0-9]/g, '')))}
-    /></div>;
+    >
+      <span style={{ fontWeight: "bolder" }}>{digitLabel}</span>
+      <input
+        type="number"
+        min="0"
+        max="255"
+        style={{
+          width: "2.5em",
+          appearance: "textfield",
+          MozAppearance: "textfield",
+          WebkitAppearance: "textfield",
+          border: "none",
+          background: "transparent",
+          color: "inherit",
+        }}
+        value={value + ""}
+        onChange={({ currentTarget: { value } }) => setValue(Number.parseInt((value || "0").replaceAll(/[^0-9]/g, "")))}
+      />
+    </div>
+  );
 }
