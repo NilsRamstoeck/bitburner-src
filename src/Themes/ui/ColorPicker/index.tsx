@@ -35,7 +35,6 @@ type OpenColorPickerButtonProps = {
 };
 
 function parseHEXtoRGB(hex: string): RGB {
-  console.log(hex);
 
   if (hex.length == 4) {
     return {
