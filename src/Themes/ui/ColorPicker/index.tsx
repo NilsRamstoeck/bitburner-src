@@ -18,6 +18,7 @@ export type RGB = {
   r: number;
   g: number;
   b: number;
+  a?: number;
 };
 
 function normalize(color: HSV | RGB) {
@@ -34,6 +35,8 @@ type OpenColorPickerButtonProps = {
 };
 
 function parseHEXtoRGB(hex: string): RGB {
+  console.log(hex);
+
   if (hex.length == 4) {
     return {
       r: Number.parseInt(`${hex[1]}${hex[1]}`, 16),
@@ -42,11 +45,12 @@ function parseHEXtoRGB(hex: string): RGB {
     };
   }
 
-  if (hex.length == 7) {
+  if (hex.length == 7 || hex.length == 9) {
     return {
       r: Number.parseInt(`${hex[1]}${hex[2]}`, 16),
-      g: Number.parseInt(`${hex[2]}${hex[3]}`, 16),
-      b: Number.parseInt(`${hex[3]}${hex[4]}`, 16),
+      g: Number.parseInt(`${hex[3]}${hex[4]}`, 16),
+      b: Number.parseInt(`${hex[5]}${hex[6]}`, 16),
+      a: Number.parseInt(`${hex[7]}${hex[8]}`, 16),
     };
   }
 

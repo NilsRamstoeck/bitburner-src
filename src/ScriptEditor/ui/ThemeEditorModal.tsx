@@ -10,6 +10,7 @@ import { Modal } from "../../ui/React/Modal";
 import { OptionSwitch } from "../../ui/React/OptionSwitch";
 
 import { defaultMonacoTheme } from "./themes";
+import { OpenColorPickerButton } from "../../Themes/ui/ColorPicker";
 
 type ColorEditorProps = {
   label: string;
@@ -25,7 +26,6 @@ function ColorEditor({ label, themePath, onColorChange, color, defaultColor }: C
     console.error(`color ${themePath} was undefined, reverting to default`);
     color = defaultColor;
   }
-
   return (
     <Tooltip title={label}>
       <span>
@@ -35,7 +35,9 @@ function ColorEditor({ label, themePath, onColorChange, color, defaultColor }: C
           sx={{ display: "block", my: 1 }}
           InputProps={{
             readOnly: true,
-            startAdornment: <></>,
+            startAdornment: (
+              <OpenColorPickerButton title={""} color={`#${color}`} onColorChange={(c) => onColorChange(themePath, c)} />
+            ),
             endAdornment: (
               <IconButton onClick={() => onColorChange(themePath, defaultColor)}>
                 <Reply color="primary" />

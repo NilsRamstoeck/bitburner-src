@@ -13,7 +13,11 @@ export function formatRGBtoHEX(rgb: RGB) {
     rgb.b.toString(16).padStart(2, "0"),
   ];
 
-  if (digits.every((d) => d[0] == d[1])) return `${digits[0][0]}${digits[1][0]}${digits[2][0]}`;
+  if (rgb.a) digits.push(rgb.a.toString(16).padStart(2, "0"));
+
+  if (digits.every((d) => d[0] == d[1]))
+    return digits.reduce((prev, cur) => `${prev}${cur[0]}`, "");
+
   return digits.join("");
 }
 
@@ -25,20 +29,27 @@ export function HexInput({ rgb, setRGB }: Props) {
 
   //this is a memo instead of an effect to make it run in sync
   useMemo(() => {
-    if (value.length != 3 && value.length != 6) return error || setError(true);
+    if (
+      value.length != 3 &&
+      value.length != 6 &&
+      value.length != 8)
+      return error || setError(true);
 
-    const rgb =
+    const rgb: RGB =
       value.length == 3
         ? {
-            r: Number.parseInt(`${value[0]}${value[0]}`, 16),
-            g: Number.parseInt(`${value[1]}${value[1]}`, 16),
-            b: Number.parseInt(`${value[2]}${value[2]}`, 16),
-          }
+          r: Number.parseInt(`${value[0]}${value[0]}`, 16),
+          g: Number.parseInt(`${value[1]}${value[1]}`, 16),
+          b: Number.parseInt(`${value[2]}${value[2]}`, 16),
+        }
         : {
-            r: Number.parseInt(value.slice(0, 2), 16),
-            g: Number.parseInt(value.slice(2, 4), 16),
-            b: Number.parseInt(value.slice(4, 6), 16),
-          };
+          r: Number.parseInt(value.slice(0, 2), 16),
+          g: Number.parseInt(value.slice(2, 4), 16),
+          b: Number.parseInt(value.slice(4, 6), 16),
+        };
+
+    if (value.length == 8)
+      rgb.a = Number.parseInt(value.slice(6, 8), 16);
 
     if (Object.values(rgb).some((v) => isNaN(v))) return error || setError(true);
     error && setError(false);
@@ -54,7 +65,7 @@ export function HexInput({ rgb, setRGB }: Props) {
   return (
     <HexInputDisplay
       value={value}
-      onChange={({ currentTarget: { value } }) => value.length <= 6 && setValue(value)}
+      onChange={({ currentTarget: { value } }) => value.length <= 8 && setValue(value)}
       error={error}
     ></HexInputDisplay>
   );
