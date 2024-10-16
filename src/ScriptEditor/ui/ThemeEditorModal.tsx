@@ -36,7 +36,11 @@ function ColorEditor({ label, themePath, onColorChange, color, defaultColor }: C
           InputProps={{
             readOnly: true,
             startAdornment: (
-              <OpenColorPickerButton title={""} color={`#${color}`} onColorChange={(c) => onColorChange(themePath, c)} />
+              <OpenColorPickerButton
+                title={""}
+                color={`#${color}`}
+                onColorChange={(c) => onColorChange(themePath, c)}
+              />
             ),
             endAdornment: (
               <IconButton onClick={() => onColorChange(themePath, defaultColor)}>
