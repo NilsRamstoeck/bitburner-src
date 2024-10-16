@@ -36,15 +36,15 @@ export function HexInput({ rgb, setRGB }: Props) {
     const rgb: RGB =
       value.length == 3
         ? {
-          r: Number.parseInt(`${value[0]}${value[0]}`, 16),
-          g: Number.parseInt(`${value[1]}${value[1]}`, 16),
-          b: Number.parseInt(`${value[2]}${value[2]}`, 16),
-        }
+            r: Number.parseInt(`${value[0]}${value[0]}`, 16),
+            g: Number.parseInt(`${value[1]}${value[1]}`, 16),
+            b: Number.parseInt(`${value[2]}${value[2]}`, 16),
+          }
         : {
-          r: Number.parseInt(value.slice(0, 2), 16),
-          g: Number.parseInt(value.slice(2, 4), 16),
-          b: Number.parseInt(value.slice(4, 6), 16),
-        };
+            r: Number.parseInt(value.slice(0, 2), 16),
+            g: Number.parseInt(value.slice(2, 4), 16),
+            b: Number.parseInt(value.slice(4, 6), 16),
+          };
 
     if (value.length == 8) rgb.a = Number.parseInt(value.slice(6, 8), 16);
 
