@@ -3,7 +3,7 @@ import { HexInput, formatRGBtoHEX } from "./HexInput";
 import { HueSlider } from "./HueSlider";
 import { RGBDigit } from "./RGBDigit";
 import { SVCanvas } from "./SVCanvas";
-import React, { Dispatch, useMemo, useReducer, useState } from "react";
+import React, { Dispatch, useEffect, useMemo, useReducer, useState } from "react";
 import { useTheme } from "@mui/material/styles";
 import { Modal } from "../../../ui/React/Modal";
 import Button from "@mui/material/Button";
@@ -118,7 +118,7 @@ export function ColorPicker({ initialColor, setColorString, ...attr }: ColorPick
 
   const theme = useTheme();
 
-  useMemo(() => {
+  useEffect(() => {
     setColorString(formatRGBtoHEX(normalize(color).rgb));
   }, [color, setColorString]);
 

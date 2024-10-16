@@ -1,5 +1,5 @@
 import { HSV, useSyncState } from "./";
-import React, { MouseEvent, useMemo } from "react";
+import React, { MouseEvent, useEffect } from "react";
 
 type Props = {
   sat: number;
@@ -31,7 +31,7 @@ export function SVCanvas({ hue, sat, val, setSV }: Props) {
     setV(v);
   };
 
-  useMemo(() => {
+  useEffect(() => {
     if (sat == s && val == v) return;
 
     setSV({ sat: s, val: v });

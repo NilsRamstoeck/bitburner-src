@@ -49,11 +49,12 @@ const CSS = /*css*/ `
 ${THUMB_RULES}
 ${THUMB_HOVER_RULES}
 `;
+const styleSheet = new CSSStyleSheet();
+styleSheet.replace(CSS);
 
 export function HueSlider({ hue, setHue }: Props) {
   useEffect(() => {
-    const styleSheet = new CSSStyleSheet();
-    styleSheet.replace(CSS);
+    if (document.adoptedStyleSheets.includes(styleSheet)) return;
     document.adoptedStyleSheets.push(styleSheet);
     return () => void (document.adoptedStyleSheets = document.adoptedStyleSheets.filter((s) => s != styleSheet));
   }, []);

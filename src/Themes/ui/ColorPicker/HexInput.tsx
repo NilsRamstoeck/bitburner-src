@@ -1,5 +1,6 @@
+import { useTheme } from "@mui/material/styles";
 import { RGB, useSyncState } from "./";
-import React, { ChangeEvent, useMemo, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 
 type Props = {
   rgb: RGB;
@@ -26,27 +27,33 @@ export function HexInput({ rgb, setRGB }: Props) {
   const [value, setValue] = useSyncState(hex);
   const [error, setError] = useState(false);
 
-  //this is a memo instead of an effect to make it run in sync
-  useMemo(() => {
-    if (value.length != 3 && value.length != 6 && value.length != 8) return error || setError(true);
+  useEffect(() => {
+    if (value.length != 3 && value.length != 6 && value.length != 8) {
+      if (!error) setError(true);
+      return;
+    }
 
     const rgb: RGB =
       value.length == 3
         ? {
-            r: Number.parseInt(`${value[0]}${value[0]}`, 16),
-            g: Number.parseInt(`${value[1]}${value[1]}`, 16),
-            b: Number.parseInt(`${value[2]}${value[2]}`, 16),
-          }
+          r: Number.parseInt(`${value[0]}${value[0]}`, 16),
+          g: Number.parseInt(`${value[1]}${value[1]}`, 16),
+          b: Number.parseInt(`${value[2]}${value[2]}`, 16),
+        }
         : {
-            r: Number.parseInt(value.slice(0, 2), 16),
-            g: Number.parseInt(value.slice(2, 4), 16),
-            b: Number.parseInt(value.slice(4, 6), 16),
-          };
+          r: Number.parseInt(value.slice(0, 2), 16),
+          g: Number.parseInt(value.slice(2, 4), 16),
+          b: Number.parseInt(value.slice(4, 6), 16),
+        };
 
     if (value.length == 8) rgb.a = Number.parseInt(value.slice(6, 8), 16);
 
-    if (Object.values(rgb).some((v) => isNaN(v))) return error || setError(true);
-    error && setError(false);
+    if (Object.values(rgb).some((v) => isNaN(v))) {
+      if (!error) setError(true);
+      return;
+    }
+
+    if (error) setError(false);
 
     if (hex == formatRGBtoHEX(rgb)) return;
 
@@ -72,13 +79,19 @@ type DisplayProps = {
 };
 
 function HexInputDisplay({ error, value, onChange }: DisplayProps) {
+  const theme = useTheme();
+
   return (
     <div
       style={{
         display: "flex",
         flexDirection: "column",
         justifyContent: "space-between",
-        borderBottom: "1px solid currentColor",
+        padding: "0.2em",
+        borderTop: `1px solid ${error ? theme.palette.error.light : "transparent"}`,
+        borderRight: `1px solid ${error ? theme.palette.error.light : "transparent"}`,
+        borderBottom: `1px solid ${error ? theme.palette.error.light : "currentColor"}`,
+        borderLeft: `1px solid ${error ? theme.palette.error.light : "transparent"}`,
       }}
     >
       <span style={{ fontWeight: "bolder" }}>HEX</span>
@@ -93,7 +106,7 @@ function HexInputDisplay({ error, value, onChange }: DisplayProps) {
         <input
           type="text"
           style={{
-            width: "3.5em",
+            width: "5em",
             appearance: "none",
             MozAppearance: "none",
             WebkitAppearance: "none",
@@ -104,7 +117,16 @@ function HexInputDisplay({ error, value, onChange }: DisplayProps) {
           value={value}
           onChange={onChange}
         />
-        <span style={{ display: "inline-block", width: "1em", textAlign: "right" }}>{error ? "X" : ""}</span>
+        <span
+          style={{
+            display: "inline-block",
+            width: "1em",
+            textAlign: "right",
+            color: theme.palette.error.light,
+          }}
+        >
+          {error ? "X" : ""}
+        </span>
       </span>
     </div>
   );
